@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: saans-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-saans}
+      POSTGRES_USER: ${POSTGRES_USER:-saans_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-saans_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - saans-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  saans-db-data:

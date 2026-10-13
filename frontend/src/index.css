@@ -1,0 +1,499 @@
+@import 'leaflet/dist/leaflet.css';
+
+:root {
+  /* Sprint 2 Refined Light Theme Palette */
+  --bg-app: #F7F9F7;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FBFDFB;
+  --bg-card-subtle: #F3F7F4;
+  --bg-sidebar: #FFFFFF;
+  --bg-input: #FFFFFF;
+  --bg-surface-elevated: #FFFFFF;
+
+  --border-color: #E5EAE5;
+  --border-card: #E5EAE5;
+  --border-subtle: #ECEFEC;
+  --border-hover: #238636;
+  --border-focus: #238636;
+
+  --text-primary: #171B18;
+  --text-secondary: #737B75;
+  --text-muted: #8C948E;
+  --text-dim: #A6AEA8;
+
+  /* Brand Greens */
+  --primary-green: #238636;
+  --secondary-green: #55B86A;
+  --pale-green: #EAF5EC;
+  --pale-green-hover: #D8ECDC;
+  --green-glow: rgba(35, 134, 54, 0.16);
+  --accent-gradient: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+
+  /* Indian NAQI Standard Categories */
+  --naqi-good: #238636;
+  --naqi-satisfactory: #2ea043;
+  --naqi-moderate: #d97706;
+  --naqi-poor: #ea580c;
+  --naqi-very-poor: #dc2626;
+  --naqi-severe: #991b1b;
+
+  /* Premium Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(23, 27, 24, 0.04);
+  --shadow-card: 0 2px 8px -1px rgba(23, 27, 24, 0.04), 0 1px 3px 0 rgba(23, 27, 24, 0.02);
+  --shadow-floating: 0 10px 30px -5px rgba(23, 27, 24, 0.07), 0 4px 12px -2px rgba(23, 27, 24, 0.03);
+  --shadow-modal: 0 24px 48px -12px rgba(23, 27, 24, 0.16), 0 8px 16px -4px rgba(23, 27, 24, 0.06);
+
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--bg-app);
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Tabular Numerals for Metrics & Coordinates */
+.tabular-nums,
+.metric-value,
+.font-mono,
+.badge-naqi,
+.marker-inner-circle {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Accessible focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: #D8DFD8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #BAC3BA;
+}
+
+/* Reusable card styles with micro-interaction */
+.card-base {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-base:hover {
+  border-color: #D2DCD2;
+  box-shadow: 0 4px 16px -2px rgba(23, 27, 24, 0.08);
+}
+
+/* Interactive cards that elevate slightly */
+.card-interactive {
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: #BAC3BA;
+  box-shadow: 0 6px 20px -3px rgba(23, 27, 24, 0.09);
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.card-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Reusable buttons with micro-interactions */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--primary-green);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #1c712d;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.btn-primary:hover {
+  background: #2ea043;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.22);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #FFFFFF;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+.btn-secondary:hover {
+  background: var(--bg-card-subtle);
+  border-color: #D2DCD2;
+  transform: translateY(-1px);
+}
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Badge styles */
+.badge-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  text-transform: uppercase;
+}
+
+.badge-simulated {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 0.18rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.badge-naqi {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.01em;
+}
+
+/* Floating Sidebar desktop styles */
+.floating-sidebar-container {
+  padding: 1rem 0 1rem 1rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: stretch;
+  z-index: 45;
+  box-sizing: border-box;
+}
+
+.floating-sidebar-inner {
+  height: 100%;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-floating);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Leaflet Container & Canvas Styling */
+.leaflet-container {
+  background: #F4F6F4 !important;
+  font-family: var(--font-sans) !important;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+/* Map Attribution Styling */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(4px);
+  color: #737B75 !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-top-left-radius: 4px;
+  border: 1px solid rgba(229, 234, 229, 0.9);
+  line-height: 1.4 !important;
+}
+.leaflet-control-attribution a {
+  color: var(--primary-green) !important;
+  text-decoration: none;
+  font-weight: 500;
+}
+.leaflet-control-attribution a:hover {
+  text-decoration: underline;
+}
+
+/* Clean Leaflet Popup (Light theme) */
+.leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-card) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-modal) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border-card) !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--text-muted) !important;
+  padding: 6px 6px 0 0 !important;
+}
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Station Marker Styling */
+.saans-station-marker-wrapper {
+  background: transparent !important;
+  border: none !important;
+}
+
+.saans-popup-inspect-btn:hover {
+  background-color: #1b6a2b !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.9) !important;
+  padding: 2px 8px !important;
+  font-size: 10px !important;
+  border-top-left-radius: 6px !important;
+  color: var(--text-secondary) !important;
+}
+
+@media (max-width: 640px) {
+  .monitoring-map-legend {
+    max-width: calc(100% - 24px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 28px !important;
+  }
+}
+
+.saans-station-marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-inner-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.marker-inner-circle:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.marker-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  opacity: 0.35;
+  animation: marker-pulse 2.2s infinite ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes marker-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.65);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Smooth Page Transition Animation */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: pageFadeIn 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Modal Entrance Animation */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-animate-enter {
+  animation: modalEnter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fade In Utility */
+.animate-fade-in {
+  animation: pageFadeIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

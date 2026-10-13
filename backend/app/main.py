@@ -40,6 +40,16 @@ app.add_middleware(
 app.include_router(stations_router, prefix="/api/v1")
 app.include_router(ingestion_router, prefix="/api/v1")
 
+@app.get("/")
+def root():
+    return {
+        "service": "SAANS Hyperlocal Air Intelligence API",
+        "status": "online",
+        "documentation": "/docs",
+        "health": "/health",
+        "version": "0.1.0"
+    }
+
 @app.get("/health")
 def health_check():
     return {

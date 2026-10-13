@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     )
 
     DATABASE_URL: str = "postgresql+psycopg2://saans_user:saans_password@localhost:5432/saans"
-    CORS_ORIGINS: Union[List[str], str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
+    CORS_ORIGINS: Union[List[str], str] = ["http://localhost:5173", "http://127.0.0.1:5173", "*"]
     NASA_FIRMS_API_KEY: str = ""
     DATA_GOV_IN_API_KEY: str = ""
     OPENAQ_API_KEY: str = ""

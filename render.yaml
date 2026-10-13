@@ -1,0 +1,26 @@
+services:
+  # 1. SAANS FastAPI Web Service
+  - type: web
+    name: saans-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: DATABASE_URL
+        sync: false
+      - key: DATA_GOV_IN_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: CPCB_SCHEDULER_ENABLED
+        value: "true"
+      - key: ENABLE_EMBEDDED_SCHEDULER
+        value: "true"
+      - key: CPCB_INGESTION_INTERVAL_SECONDS
+        value: "900"
+      - key: DATA_STALENESS_HOURS
+        value: "4.0"
